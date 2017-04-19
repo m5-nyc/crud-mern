@@ -12,7 +12,7 @@ class CommentList extends Component {
             )
         })
         return(
-            <div style={ commentList }>
+            <div style={ style.commentList }>
                 { commentNodes }
             </div>
         )
