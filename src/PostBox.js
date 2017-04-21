@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import PostList from './PostList'
 import PostForm from './PostForm'
+import Header from './Header'
 import style from './style'
 
 class PostBox extends Component {
@@ -53,7 +54,7 @@ class PostBox extends Component {
     render() {
       return (
         <div style={ style.commentBox }>
-          <h2 style={ style.title }>meetbff</h2>
+          <Header />
           <PostForm onPostSubmit={ this.handlePostSubmit }/>
           <PostList
               onPostDelete={ this.handlePostDelete }
