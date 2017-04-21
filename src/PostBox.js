@@ -4,6 +4,8 @@ import PostList from './PostList'
 import PostForm from './PostForm'
 import Header from './Header'
 import style from './style'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 class PostBox extends Component {
   constructor(props) {
@@ -53,15 +55,16 @@ class PostBox extends Component {
     }
     render() {
       return (
-        <div style={ style.commentBox }>
-          <Header />
-          <PostForm onPostSubmit={ this.handlePostSubmit }/>
-          <PostList
-              onPostDelete={ this.handlePostDelete }
-              onPostUpdate={ this.handlePostUpdate }
-              data={ this.state.data } />
-
-        </div>
+        <MuiThemeProvider muiTheme={getMuiTheme()}>
+          <div style={ style.commentBox }>
+            <Header />
+            <PostForm onPostSubmit={ this.handlePostSubmit }/>
+            <PostList
+                onPostDelete={ this.handlePostDelete }
+                onPostUpdate={ this.handlePostUpdate }
+                data={ this.state.data } />
+          </div>
+        </MuiThemeProvider>
       )
     }
 }
