@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import style from './style'
 
 class CommentForm extends Component {
     constructor(props){
-        super(props)
-            this.state = { 
+        super(props);
+            this.state = {
                 author: '',
                 text: ''
             };
@@ -20,8 +20,13 @@ class CommentForm extends Component {
         }
         handleSubmit(e) {
             e.preventDefault();
-            console.log(`${this.state.author} said "${this.state.text}`)
-            // 
+            let author = this.state.author.trim();
+            let text = this.state.text.trim();
+            if(!text ||!author) {
+                return;
+            }
+            this.props.onCommentSubmit({ author: author, text: text });
+            this.setState({ author: '', text: '' });
         }
         render(){
             return (
@@ -30,9 +35,10 @@ class CommentForm extends Component {
                     type='text'
                     placeholder='Your name...'
                     style={ style.commentFormAuthor }
-                    value={ this.state.author}
+                    value={ this.state.author }
                     onChange={ this.handleAuthorChange } />
                   <input
+                    type='text'
                     placeholder='Say something...'
                     style={ style.commentFormText }
                     value={ this.state.text }
