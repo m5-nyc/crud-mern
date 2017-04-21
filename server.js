@@ -3,7 +3,7 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
-var Comment = require('./model/comments');
+var Post = require('./model/posts');
 
 var app = express();
 var router = express.Router();
@@ -34,60 +34,60 @@ router.get('/', (req, res) => {
     res.json({ message: 'API Initialized!'});
 });
 
-// adding the /comments route to our /api router
-router.route('/comments')
-// retrieve all comments from the database
+// adding the /posts route to our /api router
+router.route('/posts')
+// retrieve all posts from the database
 .get((req, res) => {
-   //looks at out Comment Scheme
-    Comment.find(function(err, comments) {
+   //looks at out Post Scheme
+    Post.find(function(err, posts) {
         if (err)
             res.send(err);
-        // responds with json object of our database comments.
-        res.json(comments)
+        // responds with json object of our database posts.
+        res.json(posts)
     });
 })
 
-// post new comment to the database
+// post new post to the database
 .post((req, res) => {
-    const comment = new Comment();
+    const post = new Post();
     // bodyParser lets us use the req.body
-    comment.author = req.body.author;
-    comment.text = req.body.text;
+    post.title = req.body.title;
+    post.description = req.body.description;
 
-    comment.save((err) => {
+    post.save((err) => {
         if (err)
             res.send(err);
-        res.json({ message: 'Comment successfully added!' });
+        res.json({ message: 'Post successfully added!' });
     });
 });
 
-router.route('/comments/:comment_id')
+router.route('/posts/:post_id')
 // The put method gives us the chance to update our comment
 //  based on the ID passed to the router.
     .put((req, res) => {
-    Comment.findById(req.params.comment_id, (err, comment) => {
+    Post.findById(req.params.post_id, (err, post) => {
         if(err)
             res.send(err);
-        // setting the new author text to whatever was changed. If nothing
+        // setting the new title description to whatever was changed. If nothing
         // was changed we will not alter the field
-        ( req.body.author ) ? comment.author = req.body.author : null;
-        ( req.body.text ) ? comment.text = req.body.text : null;
-        // save comment
-        comment.save((err) => {
+        ( req.body.title ) ? post.title = req.body.title : null;
+        ( req.body.description ) ? post.description = req.body.description : null;
+        // save post
+        post.save((err) => {
             if(err)
                 res.send(err);
-            res.json({ message: 'Comment has been updated' });
+            res.json({ message: 'Post has been updated' });
         });
     });
 })
 
-// delete method for removing a comment from our database
+// delete method for removing a post from our database
 .delete((req, res) => {
-    // selects the comment by its ID, then removes it.
-    Comment.remove({ _id: req.params.comment_id }, (err, comment) => {
+    // selects the post by its ID, then removes it.
+    Post.remove({ _id: req.params.post_id }, (err, post) => {
         if (err)
             res.send(err);
-        res.json({ message: 'Comment has been deleted' })
+        res.json({ message: 'Post has been deleted' })
     })
 });
 
